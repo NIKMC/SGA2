@@ -1,3 +1,5 @@
+package main;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,7 +13,7 @@ public class Loading {
     public int[][] loadImage(){
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("map.png"));
+            image = ImageIO.read(new File("main/map.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

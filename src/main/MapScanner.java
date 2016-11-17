@@ -1,3 +1,5 @@
+package main;
+
 import data.Edge;
 import data.Point;
 import javafx.util.Pair;
@@ -5,13 +7,10 @@ import javafx.util.Pair;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import static com.sun.tools.doclint.Entity.image;
 
 /**
  * Created by NIKMC on 11.11.16.
@@ -174,8 +173,8 @@ public class MapScanner {
         System.out.println("start" + /*start.getNode() +*/ "|" + start.getX() + "|" + start.getY());
         System.out.println("finish" + /*finish.getNode() +*/ "|" + finish.getX() + "|" + finish.getY());
 
-//        example(radiations);
-//        DrawRadiationOnMap(graph,radiations, path);
+        example(radiations);
+        DrawRadiationOnMap(graph,radiations, path);
 
         //graph[0].get(0);
 
@@ -184,7 +183,7 @@ public class MapScanner {
     }
 
     private static void example(List<Point> radiations){
-        File f = new File("map.png");
+        File f = new File("main/map.png");
         int pixelRedColor = new Color(255,0,0).getRGB();
         try {
             BufferedImage image = ImageIO.read(f);
@@ -197,7 +196,7 @@ public class MapScanner {
     }
 
     private static void example2(LinkedList<Edge>[] graph){
-        File f = new File("map.png");
+        File f = new File("main/map.png");
         int pixelPhColor = new Color(190, 190, 190).getRGB();
 
         try {
@@ -254,7 +253,7 @@ public class MapScanner {
         for(int i = 0; i< radiat.length; i++){
             if (radiat[i]>max) max = radiat[i];
         }
-
+        saveRadiationInFile(radiat);
 
         /*for (int i =0 ; i < graph.length; i++){
             System.out.println("Vershina = " + i + "| radiation = " + radiat[i]);
@@ -274,8 +273,9 @@ public class MapScanner {
             BufferedImage image = ImageIO.read(f);
 
             for(int i=0;i<radiat.length; i++){
-                if(radiat[i]==0 )
+                /*if(radiat[i]==0 )
                     image.setRGB(i%700, i/700, pixelNuleColor);
+                */
                 if(radiat[i]>0 && radiat[i]<(max/7))
                 image.setRGB(i%700, i/700, pixelPhColor);
                 if(radiat[i]>(max/7) && radiat[i]<(2*max/7))
@@ -294,6 +294,53 @@ public class MapScanner {
             ImageIO.write(image, "png", f);
         } catch (IOException e) {
         }
+    }
+
+    private static void saveRadiationInFile(int[] radiation){
+        String fileName = "radiation.txt";
+        File file = new File(fileName);
+
+        try {
+            //проверяем, что если файл не существует то создаем его
+            if(!file.exists()){
+                file.createNewFile();
+            }
+
+            //PrintWriter обеспечит возможности записи в файл
+            PrintWriter out = new PrintWriter(file.getAbsoluteFile());
+
+            try {
+                //Записываем текст у файл
+                for(int i=0;i<radiation.length; i++) {
+                    out.println(radiation[i]);
+                }
+            } finally {
+                //После чего мы должны закрыть файл
+                //Иначе файл не запишется
+                out.close();
+            }
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int[] loadRadiationFromFile(){
+        String fileName = "radiation.txt";
+        int[] radiattion = new int[height*width];
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+
+            String line;
+            int i=0;
+            while ((line = br.readLine()) != null) {
+                radiattion[i] = Integer.parseInt(line);
+                System.out.println(line);
+                i++;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return radiattion;
     }
 
 }

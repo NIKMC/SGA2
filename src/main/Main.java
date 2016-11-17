@@ -1,10 +1,6 @@
-import data.Edge;
+package main;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
 
 /**
  * Created by NIKMC on 11.11.16.
@@ -15,7 +11,7 @@ public class Main {
 
 
         try {
-            MapScanner.scan("map.png");
+            MapScanner.scan("main/map.png");
         } catch (IOException e) {
             e.printStackTrace();
         }

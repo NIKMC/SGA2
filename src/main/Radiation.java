@@ -1,3 +1,5 @@
+package main;
+
 import data.Edge;
 import data.Point;
 
