@@ -24,7 +24,7 @@ public class Radiation {
         while (!queue.isEmpty()) {
             v = queue.poll(); //извлекаем вершину из очереди
            for (int i = 0; i < adj[v].size(); ++i) {
-                int w = adj[v].get(i).getNode().getNode();
+                int w = adj[v].get(i).getNode().getNodeNumber();
                 //если вершина уже была посещена, то пропускаем ее
                 if (used[w]) {
                     continue;
