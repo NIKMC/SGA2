@@ -11,7 +11,7 @@ public class Main {
 
 
         try {
-            MapScanner.scan("main/map.png");
+            MapScanner.scan("map.png");
         } catch (IOException e) {
             e.printStackTrace();
         }

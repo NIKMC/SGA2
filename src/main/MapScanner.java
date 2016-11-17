@@ -174,7 +174,7 @@ public class MapScanner {
         System.out.println("finish" + /*finish.getNode() +*/ "|" + finish.getX() + "|" + finish.getY());
 
         example(radiations);
-        DrawRadiationOnMap(graph,radiations, path);
+        //DrawRadiationOnMap(graph,radiations);
 
         //graph[0].get(0);
 
@@ -183,7 +183,7 @@ public class MapScanner {
     }
 
     private static void example(List<Point> radiations){
-        File f = new File("main/map.png");
+        File f = new File("mapnew.png");
         int pixelRedColor = new Color(255,0,0).getRGB();
         try {
             BufferedImage image = ImageIO.read(f);
@@ -196,7 +196,7 @@ public class MapScanner {
     }
 
     private static void example2(LinkedList<Edge>[] graph){
-        File f = new File("main/map.png");
+        File f = new File("mapnew.png");
         int pixelPhColor = new Color(190, 190, 190).getRGB();
 
         try {
@@ -245,7 +245,7 @@ public class MapScanner {
         return radiat;
     }
 
-    private static void DrawRadiationOnMap(LinkedList<Edge>[] graph, List<Point> radiations, String path){
+    private static void DrawRadiationOnMap(LinkedList<Edge>[] graph, List<Point> radiations){
         radiat = new int[graph.length];
         Radiation radiation = new Radiation();
         radiat = radiation.starCalculationRadiation(graph, radiations);
@@ -259,7 +259,7 @@ public class MapScanner {
             System.out.println("Vershina = " + i + "| radiation = " + radiat[i]);
         }*/
 
-        File f = new File(path);
+        File f = new File("mapnew.png");
         int pixelRedColor = new Color(200,0,0).getRGB();
         int pixelOrangeColor = new Color(255,165,0).getRGB();
         int pixelYellowColor = new Color(255,255,0).getRGB();
