@@ -9,7 +9,7 @@ public class Point {
     private int x;
     private int y;
     private int path;   //не использовал
-    private int radiation; // не использовал
+    //private int radiation; // не использовал
     private static final int width = 700;
     public Point(){}
     public Point(int x, int y) {
@@ -18,17 +18,21 @@ public class Point {
         this.node = y * width + x;
     }
 
-    public Point(int x, int y, int radiation) {
+/*
+    public Point(int x, int y*/
+/*, int radiation*//*
+) {
         this.x = x;
         this.y = y;
-        this.radiation = radiation;
+    //    this.radiation = radiation;
     }
+*/
 
-    public Point(int x, int y, int path, int radiation) {
+    public Point(int x, int y, int path/*, int radiation*/) {
         this.x = x;
         this.y = y;
         this.path = path;
-        this.radiation = radiation;
+      //  this.radiation = radiation;
     }
 
     public int getX() {
@@ -47,6 +51,7 @@ public class Point {
         this.y = y;
     }
 
+/*
     public int getRadiation() {
         return radiation;
     }
@@ -54,6 +59,7 @@ public class Point {
     public void setRadiation(int radiation) {
         this.radiation = radiation;
     }
+*/
 
     public int getPath() {
         return path;
@@ -63,7 +69,7 @@ public class Point {
         this.path = path;
     }
 
-    public int getNode() {
+    public int getNodeNumber() {
         return node;
     }
 
