@@ -203,7 +203,7 @@ public class MapScanner {
             BufferedImage image = ImageIO.read(f);
             for(int i=0;i<100; i++) {
                 for (int j = 0; j < graph[i].size();j++) {
-                    image.setRGB(graph[i].get(j).getNode().getNode() % 700, graph[i].get(j).getNode().getNode() / 700, pixelPhColor);
+                    image.setRGB(graph[i].get(j).getNode().getNodeNumber() % 700, graph[i].get(j).getNode().getNodeNumber() / 700, pixelPhColor);
                 }
             }
             ImageIO.write(image, "png", f);
@@ -229,7 +229,7 @@ public class MapScanner {
 
 
                 }
-                graph[i].get(j).getNode().setRadiation((int)Sumrad);
+                //graph[i].get(j).getNode().setRadiation((int)Sumrad);
             }
         }
         return graph;
@@ -241,8 +241,9 @@ public class MapScanner {
     public Pair<Point, Point> getStartFinishPlace(){
         return new Pair<>(start, finish);
     }
+
     public int[] getRadiations(){
-        return radiat;
+        return loadRadiationFromFile();
     }
 
     private static void DrawRadiationOnMap(LinkedList<Edge>[] graph, List<Point> radiations){
