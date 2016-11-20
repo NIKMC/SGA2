@@ -8,6 +8,7 @@ import java.util.LinkedList;
  * Created by Carioca on 11/11/2016.
  */
 public class PathFinder {
+
     public PathFinder() {
         System.out.println("Path found!");
     }
@@ -17,4 +18,7 @@ public class PathFinder {
         int [] radiationValues;
         return false;
     }
+
+
+
 }
