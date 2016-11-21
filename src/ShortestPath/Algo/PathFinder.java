@@ -82,8 +82,9 @@ public class PathFinder {
                         imgData.terrainGraph[parent.nodeNumber]) {
                     int childNodeNumber = iterEdge.getNode().getNodeNumber();
                     // set parent to current node
+                    nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].prntNumber = parent.nodeNumber;
                     if (childNodeNumber == finishPointNumber) {
-                        nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].prntNumber = parent.nodeNumber;
+//                        nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].prntNumber = parent.nodeNumber;
                         ImageIO.write(image, "png", resultFile);
                         return childNodeNumber;
                     }
@@ -97,7 +98,6 @@ public class PathFinder {
                             nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].getF() < childDistTo)
                         continue;
                     nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].setG(childDistTo);
-                    nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].prntNumber = parent.nodeNumber;
                     openList.add(nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth]);
                 }
 
