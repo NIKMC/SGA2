@@ -42,7 +42,7 @@ public class PathFinder {
         ImgProcessingResults preProcessedImage = new ImgProcessingResults(path);
         NodeTotalCost [][]nodesCosts = InitializeNodesCosts(preProcessedImage);
         int destPointNumber = FindLowestRadiationPathLimitedBy1300Moves(preProcessedImage, nodesCosts);
-        DrawResultImage(destPointNumber, path, resultPath, preProcessedImage, nodesCosts);
+        DrawResultImage(destPointNumber, "mapnew.png", resultPath, preProcessedImage, nodesCosts);
         return false;
     }
 
@@ -69,7 +69,7 @@ public class PathFinder {
         openList.add(nodesCosts[startPointNumber / imgWidth][startPointNumber % imgWidth]);
         File f = new File("map.png");
         File resultFile = new File("map_dbg.png");
-        int pixelColor = new Color(255,0,0).getRGB();
+        int pixelColor = new Color(247, 255, 18).getRGB();
         try {
             BufferedImage image = ImageIO.read(f);
             while (!openList.isEmpty()) {
@@ -154,7 +154,7 @@ public class PathFinder {
         File resultFile = new File(resultPath);
         int imgWidth = imgData.width;
         int prntNumber = nodesCosts[trgPoint / imgWidth][trgPoint % imgWidth].prntNumber;
-        int pixelColor = new Color(255,0,0).getRGB();
+        int pixelColor = new Color(33, 25, 255).getRGB();
         try {
             BufferedImage image = ImageIO.read(f);
             while (prntNumber != -1){
