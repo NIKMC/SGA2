@@ -11,7 +11,7 @@ public class PF_Testbench {
     public static void main(String []args){
         PathFinder PF = new PathFinder();
         try {
-            PathFinder.FindPath("map.png");
+            PathFinder.FindPath("map.png", "result_map.png");
         } catch (IOException e) {
             e.printStackTrace();
         }

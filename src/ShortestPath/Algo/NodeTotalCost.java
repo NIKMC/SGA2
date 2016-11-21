@@ -5,10 +5,12 @@ import javafx.util.Pair;
 /**
  * Created by Konstantin on 20.11.2016.
  */
-public class NodeTotalCost {
+public class NodeTotalCost {//implements Comparable<NodeTotalCost>{
     double h;
     double f;
     double g;
+
+
 
     public NodeTotalCost(int img_dim, int dstNum, int myNum) {
         Pair<Integer, Integer> myCoords = OneDimToTwoDim(myNum, img_dim);
@@ -24,7 +26,7 @@ public class NodeTotalCost {
     }
 
     Pair<Integer, Integer> OneDimToTwoDim(int Pos, int img_dim){
-        int xCoord = Pos & img_dim;
+        int xCoord = Pos % img_dim;
         int yCoord = Pos / img_dim;
         return new Pair<>(xCoord, yCoord);
     }
@@ -40,5 +42,14 @@ public class NodeTotalCost {
     public double getG() {
         return g;
     }
+
+//    @Override
+//    public int compareTo(NodeTotalCost that) {
+//        if(this.h < that.h)
+//            return -1;
+//        if(this.h == that.h)
+//            return 0;
+//        return -1;
+//    }
 }
 
