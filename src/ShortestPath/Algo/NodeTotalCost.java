@@ -5,10 +5,12 @@ import javafx.util.Pair;
 /**
  * Created by Konstantin on 20.11.2016.
  */
-public class NodeTotalCost {//implements Comparable<NodeTotalCost>{
+public class NodeTotalCost {
     double h;
     double f;
     double g;
+    int nodeNumber;
+    int prntNumber;
 
 
 
@@ -18,6 +20,8 @@ public class NodeTotalCost {//implements Comparable<NodeTotalCost>{
         this.h = Math.abs(dstCoords.getKey() - myCoords.getKey()) + Math.abs(dstCoords.getValue() - myCoords.getValue());
         this.f = 0.0;
         this.g = 0.0;
+        this.nodeNumber = myNum;
+        this.prntNumber = -1;
     }
 
     public void setG(double g){
