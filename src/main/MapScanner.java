@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class MapScanner {
 
-    private static final int width = 700;
-    private static final int height = 700;
+    private static  int width = 700;
+    private static  int height = 700;
     private static final int _START = -1237980;
     private static final int _FINISH = -14503604;
     private static final int _RADIATION = -32985;
@@ -30,12 +30,21 @@ public class MapScanner {
     private static Point finish;
     private static int[] radiat ;
 
+    public static int getWidth() {
+        return width;
+    }
 
-    public static LinkedList<Edge>[] scan(String path) throws IOException {
+    public static int getHeight() {
+        return height;
+    }
+
+    public static LinkedList<Edge>[] scan(String path) throws IOException{
 
         LinkedList<Edge>[] graph = null;
         File f = new File(path);
         BufferedImage image = ImageIO.read(f);
+        MapScanner.width = image.getWidth();
+        MapScanner.height = image.getHeight();
         graph = new LinkedList[height*width];  // graphh is a matrix -> array, matrix[i,j] = graph[i*width + j]
         for (int i = 0; i < graph.length; i++) {
             graph[i] = new LinkedList<Edge>();
@@ -50,23 +59,23 @@ public class MapScanner {
                     radiations.add(new Point(j,i,MAX_RADIATION));
                 }
                 if(image.getRGB(j, i) == _START) {
-                    System.out.println("find start");
+//                    System.out.println("find start");
 
                     start = new Point(j,i);
                 }
                 if(image.getRGB(j, i) == _FINISH) {
-                    System.out.println("find finish");
+//                    System.out.println("find finish");
 
                     finish = new Point(j,i);
                 }
                 if(image.getRGB(j, i) != _BLACK && image.getRGB(j, i) != _RADIATION) {
                     if (i > 0 && image.getRGB(j, i - 1) != _BLACK && i > 0 && image.getRGB(j, i - 1) != _RADIATION) { // top pixel
                         if(image.getRGB(j, i) == _START) {
-                            System.out.println("find start");
+//                            System.out.println("find start");
                             start = new Point(j,i);
                         }
                         if(image.getRGB(j, i) == _FINISH) {
-                            System.out.println("find finish");
+//                            System.out.println("find finish");
 
                             finish = new Point(j,i);
                         }
@@ -74,11 +83,11 @@ public class MapScanner {
                     }
                     if (j < width - 1 && i  > 0 && image.getRGB(j + 1, i - 1) > _BLACK) { // top right pixel
                         if(image.getRGB(j, i) == _START) {
-                            System.out.println("find start");
+//                            System.out.println("find start");
                             start = new Point(j,i);
                         }
                         if(image.getRGB(j, i) == _FINISH) {
-                            System.out.println("find finish");
+//                            System.out.println("find finish");
                             finish = new Point(j,i);
                         }
                             graph[i * width + j].add(new Edge( new Point( (j + 1), ((i - 1)) ), Math.sqrt(2)));
@@ -88,67 +97,67 @@ public class MapScanner {
                             start = new Point(j,i);
                         }
                         if(image.getRGB(j, i) == _FINISH) {
-                            System.out.println("find finish");
+//                            System.out.println("find finish");
                             finish = new Point(j,i);
                         }
                             graph[i * width + j].add(new Edge( new Point( (j + 1), ((i )) ), 1));
                     }
                     if (j < width - 1 && i < height - 1 && image.getRGB(j + 1, i + 1) > _BLACK) { // right lower pixel
                         if(image.getRGB(j, i) == _START) {
-                            System.out.println("find start");
+//                            System.out.println("find start");
 
                             start = new Point(j,i);
                         }
                         if(image.getRGB(j, i) == _FINISH) {
-                            System.out.println("find finish");
+//                            System.out.println("find finish");
                             finish = new Point(j,i);
                         }
                             graph[i * width + j].add(new Edge( new Point( (j + 1), ((i + 1)) ), Math.sqrt(2)));
                     }
                     if (i < height - 1 && image.getRGB(j, i + 1) > _BLACK) { // lower pixel
                         if(image.getRGB(j, i) == _START) {
-                            System.out.println("find start");
+//                            System.out.println("find start");
 
                             start = new Point(j,i);
                         }
                         if(image.getRGB(j, i) == _FINISH) {
-                            System.out.println("find finish");
+//                            System.out.println("find finish");
                             finish = new Point(j,i);
                         }
                             graph[i * width + j].add(new Edge(new Point( (j), ((i + 1)) ), 1));
                     }
                     if (i < height - 1 && j > 0 && image.getRGB(j - 1, i + 1) > _BLACK) { // lower left pixel
                         if(image.getRGB(j, i) == _START) {
-                            System.out.println("find start");
+//                            System.out.println("find start");
 
                             start = new Point(j,i);
                         }
                         if(image.getRGB(j, i) == _FINISH) {
-                            System.out.println("find finish");
+//                            System.out.println("find finish");
                             finish = new Point(j,i);
                         }
                             graph[i * width + j].add(new Edge(new Point( (j - 1), ((i + 1)) ), Math.sqrt(2)));
                     }
                     if (j > 0 && image.getRGB(j - 1, i) > _BLACK) { // left pixel
                         if(image.getRGB(j, i) == _START) {
-                            System.out.println("find start");
+//                            System.out.println("find start");
 
                             start = new Point(j,i);
                         }
                         if(image.getRGB(j, i) == _FINISH) {
-                            System.out.println("find finish");
+//                            System.out.println("find finish");
                             finish = new Point(j,i);
                         }
                             graph[i * width + j].add(new Edge(new Point( (j - 1), ((i)) ), 1));
                     }
                     if (j > 0 && i > 0 && image.getRGB(j - 1, i - 1) > _BLACK) { // left top pixel
                         if(image.getRGB(j, i) == _START) {
-                            System.out.println("find start");
+//                            System.out.println("find start");
 
                             start = new Point(j,i);
                         }
                         if(image.getRGB(j, i) == _FINISH) {
-                            System.out.println("find finish");
+//                            System.out.println("find finish");
                             finish = new Point(j,i);
                         }
                             graph[i * width + j].add(new Edge(new Point( (j - 1), ((i - 1)) ), Math.sqrt(2)));
@@ -334,7 +343,7 @@ public class MapScanner {
             int i=0;
             while ((line = br.readLine()) != null) {
                 radiattion[i] = Integer.parseInt(line);
-                System.out.println(line);
+//                System.out.println(line);
                 i++;
             }
 

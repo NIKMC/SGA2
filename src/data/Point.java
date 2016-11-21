@@ -8,7 +8,7 @@ public class Point {
     private int node;   //номер ячейки
     private int x;
     private int y;
-    private int path;   //не использовал
+    private int path;   //parent number; -1 if source point
     //private int radiation; // не использовал
     private static final int width = 700;
     public Point(){}
