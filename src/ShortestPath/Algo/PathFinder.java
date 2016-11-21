@@ -40,23 +40,23 @@ public class PathFinder {
 
     public static boolean FindPath(String path, String resultPath) throws IOException{
         ImgProcessingResults preProcessedImage = new ImgProcessingResults(path);
-        Point destPoint = FindLowestRadiationPathLimitedBy1300Moves(preProcessedImage);
-        DrawResultImage(destPoint, path, resultPath, preProcessedImage);
+        NodeTotalCost [][]nodesCosts = InitializeNodesCosts(preProcessedImage);
+        int destPointNumber = FindLowestRadiationPathLimitedBy1300Moves(preProcessedImage, nodesCosts);
+        DrawResultImage(destPointNumber, path, resultPath, preProcessedImage, nodesCosts);
         return false;
     }
 
-    static Point FindLowestRadiationPathLimitedBy1300Moves(ImgProcessingResults preProcessedImage){
+    static int FindLowestRadiationPathLimitedBy1300Moves(ImgProcessingResults preProcessedImage, NodeTotalCost [][]nodesCosts){
         double stepCostCft = .1;
-        NodeTotalCost [][]nodesCosts = InitializeNodesCosts(preProcessedImage);
         int targetPointNumber = A_Star(stepCostCft, preProcessedImage, nodesCosts);
         int pathLength = CountPathLength(targetPointNumber, nodesCosts, preProcessedImage);
-//        while(pathLength > STEPS_NUMBER_LIMIT){
-//            stepCostCft = RedefineStepCostCft(stepCostCft, pathLength);
-//            nodesCosts = InitializeNodesCosts(preProcessedImage);
-//            targetPoint = A_Star(stepCostCft, preProcessedImage, nodesCosts);
-//            pathLength = CountPathLength(targetPoint, nodesCosts, preProcessedImage);
-//        }
-        return new Point();
+        while(pathLength > STEPS_NUMBER_LIMIT){
+            stepCostCft = RedefineStepCostCft(stepCostCft, pathLength);
+            nodesCosts = InitializeNodesCosts(preProcessedImage);
+            targetPointNumber = A_Star(stepCostCft, preProcessedImage, nodesCosts);
+            pathLength = CountPathLength(targetPointNumber, nodesCosts, preProcessedImage);
+        }
+        return targetPointNumber;
     }
 
     static int A_Star(double stepCostCfft, ImgProcessingResults imgData, NodeTotalCost [][]nodesCosts){
@@ -82,22 +82,24 @@ public class PathFinder {
                         imgData.terrainGraph[parent.nodeNumber]) {
                     int childNodeNumber = iterEdge.getNode().getNodeNumber();
                     // set parent to current node
-                    nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].prntNumber = parent.nodeNumber;
                     if (childNodeNumber == finishPointNumber) {
-//                        nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].prntNumber = parent.nodeNumber;
+                        nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].prntNumber = parent.nodeNumber;
                         ImageIO.write(image, "png", resultFile);
                         return childNodeNumber;
                     }
                     int childRadiation = imgData.radiationValues[childNodeNumber];
+                    int childH = nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].getH();
                     double stepCost = stepCostCfft * iterEdge.getWeight();
                     double childDistTo = prntDisTo + childRadiation + stepCost;
+                    double childF = childDistTo + childH;
                     if (openList.contains(nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth]) &&
-                            nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].getF() < childDistTo)
+                            nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].getF() < childF)
                         continue;
                     if (closedList.contains(nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth]) &&
-                            nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].getF() < childDistTo)
+                            nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].getF() < childF)
                         continue;
                     nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].setG(childDistTo);
+                    nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth].prntNumber = parent.nodeNumber;
                     openList.add(nodesCosts[childNodeNumber / imgWidth][childNodeNumber % imgWidth]);
                 }
 
@@ -135,7 +137,6 @@ public class PathFinder {
         int pathLength = 0;
         int imgWidth = imgData.width;
         int prntNumber = nodesCosts[targetPointNumber / imgWidth][targetPointNumber % imgWidth].prntNumber;
-        NodeTotalCost iterator = nodesCosts[targetPointNumber / imgWidth][targetPointNumber % imgWidth];
         while (prntNumber != -1){
             prntNumber = nodesCosts[prntNumber / imgWidth][prntNumber % imgWidth].prntNumber;
             pathLength ++;
@@ -144,24 +145,22 @@ public class PathFinder {
     }
 
     static double RedefineStepCostCft(double crntCft, int pathLength){
-        double newCostCft = (pathLength / STEPS_NUMBER_LIMIT) * crntCft;
+        double newCostCft = ((double)pathLength / STEPS_NUMBER_LIMIT) * crntCft * 10;
         return newCostCft;
     }
 
-    static void DrawResultImage(Point trgPoint, String path, String resultPath, ImgProcessingResults imgData){
+    static void DrawResultImage(int trgPoint, String path, String resultPath, ImgProcessingResults imgData, NodeTotalCost [][]nodesCosts){
         File f = new File(path);
         File resultFile = new File(resultPath);
-        int imgHeight = imgData.height;
         int imgWidth = imgData.width;
+        int prntNumber = nodesCosts[trgPoint / imgWidth][trgPoint % imgWidth].prntNumber;
         int pixelColor = new Color(255,0,0).getRGB();
         try {
             BufferedImage image = ImageIO.read(f);
-//            Node bfrNode = finalNode;
-//            while(bfrNode != null){
-//                image.setRGB(bfrNode.getPosition().getX(), bfrNode.getPosition().getY(), pixelColor);
-//                bfrNode = bfrNode.getParent();
-//            }
-
+            while (prntNumber != -1){
+                image.setRGB(prntNumber % imgWidth, prntNumber / imgWidth, pixelColor);
+                prntNumber = nodesCosts[prntNumber / imgWidth][prntNumber % imgWidth].prntNumber;
+            }
             ImageIO.write(image, "png", resultFile);
         }
         catch (IOException e) {

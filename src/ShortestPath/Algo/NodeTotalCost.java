@@ -6,7 +6,7 @@ import javafx.util.Pair;
  * Created by Konstantin on 20.11.2016.
  */
 public class NodeTotalCost {
-    double h;
+    int h;
     double f;
     double g;
     int nodeNumber;
@@ -35,7 +35,7 @@ public class NodeTotalCost {
         return new Pair<>(xCoord, yCoord);
     }
 
-    public double getH() {
+    public int getH() {
         return h;
     }
 
