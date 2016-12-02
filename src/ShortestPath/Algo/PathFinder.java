@@ -16,7 +16,7 @@ import java.util.*;
  * Created by Carioca on 11/11/2016.
  */
 public class PathFinder {
-    static final int STEPS_NUMBER_LIMIT = 1300;
+    static final int STEPS_NUMBER_LIMIT = 700;
 
     static class ImgProcessingResults{
         public int width;
@@ -145,7 +145,7 @@ public class PathFinder {
     }
 
     static double RedefineStepCostCft(double crntCft, int pathLength){
-        double newCostCft = ((double)pathLength / STEPS_NUMBER_LIMIT) * crntCft * 10;
+        double newCostCft = ((double)pathLength / STEPS_NUMBER_LIMIT) * crntCft * Math.pow(10,8);
         return newCostCft;
     }
 
